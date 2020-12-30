@@ -1,12 +1,18 @@
 from flask import Flask, render_template, request
 import json
+import numpy as numpy
+from scipy.stats import skew
+from scipy.stats import kurtosis
+from numpy import median
+import statistics
+from scipy import stats
 
 app = Flask(__name__)
 
 
-# @app.route('/')
-# def hello_world():
-#   return render_template('index.html')
+"""@app.route('/')
+def hello_world():
+   return render_template('index.html')"""
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -17,13 +23,13 @@ def result():
         age_range = request.form['age_range']
         currency = request.form['currency']
         print(year, sex, age_range, currency)
-        getDataCountry(year, sex, age_range, currency, "Belgium")
+        calculateForAllCountries(year, sex, age_range, currency)
         return render_template('index.html', year=year, sex=sex, age_range=age_range, currency=currency)
     else:
         return render_template('index.html')
 
 
-def getData(countryName):
+"""def getData(countryName):
     finalData = []
     allJsonFileData = []
     index = 0
@@ -36,7 +42,48 @@ def getData(countryName):
             index += 1
     print(allJsonFileData)
     print(finalData)
-    json_file.close()
+    json_file.close()"""
+
+
+def calculateForAllCountries(year, sex, age_range, currency):
+    #wariancja
+    varianceList = []
+    #mediana
+    medianList = []
+    #skośność
+    skewnessList = []
+    #rozstęp
+    statisticRangeList = []
+    #odchylenie standarodwe
+    standardDeviationList = []
+    #średnia arytmetyczna
+    arithmeticAverageList = []
+    #średnia geometryczna
+    geometricMeanList = []
+    #kurtoza
+    kurtosisList = []
+    countriesList = ["Belgium", "Bulgaria", "Czechia", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain", \
+                     "France", "Croatia", "Italy", "Cyprus", "Latvia", "Lithuania", "Luxembourg", "Hungary", "Malta", \
+                     "Netherlands", "Austria", "Poland", "Portugal", "Romania", "Slovenia", "Slovakia", "Finland", \
+                     "Sweden", "United Kingdom", "Iceland", "Norway", "Switzerland", "Montenegro", "North Macedonia", \
+                     "Serbia", "Turkey"]
+    for country in countriesList:
+        varianceList.append(numpy.round(numpy.var(getDataCountry(year, sex, age_range, currency, country)), 2))
+        medianList.append(median(getDataCountry(year, sex, age_range, currency, country)))
+        skewnessList.append(numpy.round(skew(getDataCountry(year, sex, age_range, currency, country), bias=False), 2))
+        statisticRangeList.append(max(getDataCountry(year, sex, age_range, currency, country)) - min(getDataCountry(year, sex, age_range, currency, country)))
+        standardDeviationList.append(numpy.round(statistics.stdev(getDataCountry(year, sex, age_range, currency, country)), 2))
+        arithmeticAverageList.append(numpy.round(numpy.mean(getDataCountry(year, sex, age_range, currency, country)), 2))
+        geometricMeanList.append(numpy.round(stats.gmean(getDataCountry(year, sex, age_range, currency, country)), 2))
+        kurtosisList.append(numpy.round(kurtosis(getDataCountry(year, sex, age_range, currency, country), bias=False), 2))
+    print(varianceList)
+    print(medianList)
+    print(skewnessList)
+    print(statisticRangeList)
+    print(standardDeviationList)
+    print(arithmeticAverageList)
+    print(geometricMeanList)
+    print(kurtosisList)
 
 
 """def calculateAverage(year, sex, age_range, currency):
@@ -89,7 +136,6 @@ def getDataCountry(year, sex, age_range, currency, countryName):
                 allJsonFileData.append(json.loads(country))
                 if allJsonFileData[index]['country'] == countryName:
                     finalData.append(allJsonFileData[index][currency])
-                    print(allJsonFileData[index][currency])
                 index += 1
     elif year == "2013-2019" and sex == "FemalesMales":
         with open('dane/dane.json') as json_file:
@@ -98,7 +144,6 @@ def getDataCountry(year, sex, age_range, currency, countryName):
                 if allJsonFileData[index]['country'] == countryName and \
                         allJsonFileData[index]['age_class'] == age_range:
                     finalData.append(allJsonFileData[index][currency])
-                    print(allJsonFileData[index][currency])
                 index += 1
     elif year == "2013-2019" and age_range == "18-64":
         with open('dane/dane.json') as json_file:
@@ -106,7 +151,6 @@ def getDataCountry(year, sex, age_range, currency, countryName):
                 allJsonFileData.append(json.loads(country))
                 if allJsonFileData[index]['country'] == countryName and allJsonFileData[index]['sex'] == sex:
                     finalData.append(allJsonFileData[index][currency])
-                    print(allJsonFileData[index][currency])
                 index += 1
     elif sex == "FemalesMales" and age_range == "18-64":
         with open('dane/dane.json') as json_file:
@@ -114,7 +158,6 @@ def getDataCountry(year, sex, age_range, currency, countryName):
                 allJsonFileData.append(json.loads(country))
                 if allJsonFileData[index]['country'] == countryName and allJsonFileData[index]['year'] == year:
                     finalData.append(allJsonFileData[index][currency])
-                    print(allJsonFileData[index][currency])
                 index += 1
     elif year == "2013-2019":
         with open('dane/dane.json') as json_file:
@@ -123,7 +166,6 @@ def getDataCountry(year, sex, age_range, currency, countryName):
                 if allJsonFileData[index]['country'] == countryName and allJsonFileData[index]['sex'] == sex and \
                         allJsonFileData[index]['age_class'] == age_range:
                     finalData.append(allJsonFileData[index][currency])
-                    print(allJsonFileData[index][currency])
                 index += 1
     elif sex == "FemalesMales":
         with open('dane/dane.json') as json_file:
@@ -132,7 +174,6 @@ def getDataCountry(year, sex, age_range, currency, countryName):
                 if allJsonFileData[index]['country'] == countryName and allJsonFileData[index]['year'] == year and \
                         allJsonFileData[index]['age_class'] == age_range:
                     finalData.append(allJsonFileData[index][currency])
-                    print(allJsonFileData[index][currency])
                 index += 1
     elif age_range == "18-64":
         with open('dane/dane.json') as json_file:
@@ -141,7 +182,6 @@ def getDataCountry(year, sex, age_range, currency, countryName):
                 if allJsonFileData[index]['country'] == countryName and allJsonFileData[index]['year'] == year and \
                         allJsonFileData[index]['sex'] == sex:
                     finalData.append(allJsonFileData[index][currency])
-                    print(allJsonFileData[index][currency])
                 index += 1
     else:
         with open('dane/dane.json') as json_file:
@@ -150,113 +190,11 @@ def getDataCountry(year, sex, age_range, currency, countryName):
                 if allJsonFileData[index]['country'] == countryName and allJsonFileData[index]['year'] == year and \
                         allJsonFileData[index]['sex'] == sex and allJsonFileData[index]['age_class'] == age_range:
                     finalData.append(allJsonFileData[index][currency])
-                    print(allJsonFileData[index][currency])
                 index += 1
     json_file.close()
-    print(finalData)
+    #print(finalData)
     return finalData
 
-
-"""def getDataBulgaria():
-    finalData = []
-    allJsonFileData = []
-    index = 0
-
-def getDataCzechia():
-    finalData = []
-    allJsonFileData = []
-    index = 0
-
-def getDataDenmark():
-    finalData = []
-    allJsonFileData = []
-    index = 0
-
-def getDataGermany():
-    finalData = []
-    allJsonFileData = []
-    index = 0
-
-def getDataEstonia():
-    finalData = []
-    allJsonFileData = []
-    index = 0
-
-def getDataIreland():
-    finalData = []
-    allJsonFileData = []
-    index = 0
-
-def getDataGreece():
-    finalData = []
-    allJsonFileData = []
-    index = 0
-
-def getDataSpain():
-    finalData = []
-    allJsonFileData = []
-    index = 0
-
-def getDataFrance():
-    finalData = []
-    allJsonFileData = []
-    index = 0
-
-def getDataCroatia():
-    finalData = []
-    allJsonFileData = []
-    index = 0
-
-def getDataItaly():
-    finalData = []
-    allJsonFileData = []
-    index = 0
-
-def getDataCyprus():
-
-def getDataLatvia():
-
-def getDataLithuania():
-
-def getDataLuxembourg():
-
-def getDataHungary():
-
-def getDataMalta():
-
-def getDataNetherlands():
-
-def getDataAustria():
-
-def getDataPoland():
-
-def getDataPortugal():
-
-def getDataRomania():
-
-def getDataSlovenia():
-
-def getDataSlovakia():
-
-def getDataFinland():
-
-def getDataSweden():
-
-def getDataUnitedKingdom():
-
-def getDataIceland():
-
-def getDataNorway():
-
-def getDataSwitzerland():
-
-def getDataMontenegro():
-
-def getDataNorthMacedonia():
-
-def getDataSerbia():
-
-def getDataTurkey():"""
 
 if __name__ == '__main__':
     app.run(debug=True)
