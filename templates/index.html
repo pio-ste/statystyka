@@ -196,5 +196,49 @@
     {{ sex }}
     {{ age_range }}
     {{ currency }}
+    <div class="bg-light">
+    <canvas id="varianceChart" width="600" height="400"></canvas>
+    <script>
+        var barData = {
+            labels : [
+                {% for item in countriesList %}
+                "{{ item }}",
+                {% endfor %}
+            ],
+        datasets : [{
+            data : [
+                {% for item in varianceList %}
+                    "{{ item }}",
+                {% endfor %}
+            ],
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(0, 0, 0, 1)',
+        borderWidth: 1,
+        label: "Wariancja"
+        }]
+        }
+
+        var mychart = document.getElementById("varianceChart").getContext("2d");
+
+        steps = 10
+        max = {{ maxVariance }}
+
+        var chart = new Chart(mychart, {
+            type: 'bar',
+            data: barData,
+            options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        });
+
+    </script>
+    </div>
 {% endblock %}
 
