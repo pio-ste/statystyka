@@ -9,85 +9,81 @@ from scipy import stats
 
 app = Flask(__name__)
 
-
 """@app.route('/')
 def hello_world():
    return render_template('index.html')"""
 
 countriesList = ["Belgium", "Bulgaria", "Czechia", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain", \
-                     "France", "Croatia", "Italy", "Cyprus", "Latvia", "Lithuania", "Luxembourg", "Hungary", "Malta", \
-                     "Netherlands", "Austria", "Poland", "Portugal", "Romania", "Slovenia", "Slovakia", "Finland", \
-                     "Sweden", "United Kingdom", "Iceland", "Norway", "Switzerland", "Montenegro", "North Macedonia", \
-                     "Serbia", "Turkey"]
+                 "France", "Croatia", "Italy", "Cyprus", "Latvia", "Lithuania", "Luxembourg", "Hungary", "Malta", \
+                 "Netherlands", "Austria", "Poland", "Portugal", "Romania", "Slovenia", "Slovakia", "Finland", \
+                 "Sweden", "United Kingdom", "Iceland", "Norway", "Switzerland", "Montenegro", "North Macedonia", \
+                 "Serbia", "Turkey"]
+
 
 @app.route('/', methods=['POST', 'GET'])
 def result():
-    if request.method == 'POST':
-        year = request.form['year']
-        sex = request.form['sex']
-        age_range = request.form['age_range']
-        currency = request.form['currency']
-        # wariancja
-        varianceList = []
-        # mediana
-        medianList = []
-        # skośność
-        skewnessList = []
-        # rozstęp
-        statisticRangeList = []
-        # odchylenie standarodwe
-        standardDeviationList = []
-        # średnia arytmetyczna
-        arithmeticAverageList = []
-        # średnia geometryczna
-        geometricMeanList = []
-        # kurtoza
-        kurtosisList = []
-        for country in countriesList:
-            varianceList.append(numpy.round(numpy.var(getDataCountry(year, sex, age_range, currency, country)), 2))
-            medianList.append(median(getDataCountry(year, sex, age_range, currency, country)))
-            skewnessList.append(
-                numpy.round(skew(getDataCountry(year, sex, age_range, currency, country), bias=False), 2))
-            statisticRangeList.append(max(getDataCountry(year, sex, age_range, currency, country)) - min(
-                getDataCountry(year, sex, age_range, currency, country)))
-            standardDeviationList.append(
-                numpy.round(statistics.stdev(getDataCountry(year, sex, age_range, currency, country)), 2))
-            arithmeticAverageList.append(
-                numpy.round(numpy.mean(getDataCountry(year, sex, age_range, currency, country)), 2))
-            geometricMeanList.append(
-                numpy.round(stats.gmean(getDataCountry(year, sex, age_range, currency, country)), 2))
-            kurtosisList.append(
-                numpy.round(kurtosis(getDataCountry(year, sex, age_range, currency, country), bias=False), 2))
-        maxVariance = max(varianceList)
-        maxMedian = max(medianList)
-        maxSkewness = max(skewnessList)
-        minSkewness = min(skewnessList)
-        maxStatisticRange = max(statisticRangeList)
-        maxStandardDeviation = max(standardDeviationList)
-        maxArithmeticAverage = max(arithmeticAverageList)
-        maxGeometricMean = max(geometricMeanList)
-        maxKurtosis = max(kurtosisList)
-        minKurtosis = min(kurtosisList)
-        print(year, sex, age_range, currency)
-        print(varianceList)
-        print(medianList)
-        print(skewnessList)
-        print(statisticRangeList)
-        print(standardDeviationList)
-        print(arithmeticAverageList)
-        print(geometricMeanList)
-        print(kurtosisList)
-        return render_template('index.html', year=year, sex=sex, age_range=age_range, currency=currency,
-                               countriesList=countriesList, varianceList=varianceList, maxVariance=maxVariance,
-                               medianList=medianList, maxMedian=maxMedian, skewnessList=skewnessList,
-                               maxSkewness=maxSkewness, minSkewness=minSkewness, statisticRangeList=statisticRangeList,
-                               maxStatisticRange=maxStatisticRange, standardDeviationList=standardDeviationList,
-                               maxStandardDeviation=maxStandardDeviation, arithmeticAverageList=arithmeticAverageList,
-                               maxArithmeticAverage=maxArithmeticAverage, geometricMeanList=geometricMeanList,
-                               maxGeometricMean=maxGeometricMean, kurtosisList=kurtosisList, maxKurtosis=maxKurtosis,
-                               minKurtosis=minKurtosis)
-    else:
-        return render_template('index.html')
+    try:
+        if request.method == 'POST':
+            year = request.form['year']
+            sex = request.form['sex']
+            age_range = request.form['age_range']
+            currency = request.form['currency']
+            # wariancja
+            varianceList = []
+            # mediana
+            medianList = []
+            # skośność
+            skewnessList = []
+            # rozstęp
+            statisticRangeList = []
+            # odchylenie standarodwe
+            standardDeviationList = []
+            # średnia arytmetyczna
+            arithmeticAverageList = []
+            # średnia geometryczna
+            geometricMeanList = []
+            # kurtoza
+            kurtosisList = []
+            for country in countriesList:
+                varianceList.append(numpy.round(numpy.var(getDataCountry(year, sex, age_range, currency, country)), 2))
+                medianList.append(median(getDataCountry(year, sex, age_range, currency, country)))
+                skewnessList.append(
+                    numpy.round(skew(getDataCountry(year, sex, age_range, currency, country), bias=False), 2))
+                statisticRangeList.append(max(getDataCountry(year, sex, age_range, currency, country)) - min(
+                    getDataCountry(year, sex, age_range, currency, country)))
+                standardDeviationList.append(
+                    numpy.round(statistics.stdev(getDataCountry(year, sex, age_range, currency, country)), 2))
+                arithmeticAverageList.append(
+                    numpy.round(numpy.mean(getDataCountry(year, sex, age_range, currency, country)), 2))
+                geometricMeanList.append(
+                    numpy.round(stats.gmean(getDataCountry(year, sex, age_range, currency, country)), 2))
+                kurtosisList.append(
+                    numpy.round(kurtosis(getDataCountry(year, sex, age_range, currency, country), bias=False), 2))
+            print(year, sex, age_range, currency)
+            print(varianceList)
+            print(medianList)
+            print(skewnessList)
+            print(statisticRangeList)
+            print(standardDeviationList)
+            print(arithmeticAverageList)
+            print(geometricMeanList)
+            print(kurtosisList)
+            return render_template('index.html', year=year, sex=sex, age_range=age_range, currency=currency,
+                                   countriesList=countriesList, varianceList=varianceList, medianList=medianList,
+                                   skewnessList=skewnessList, statisticRangeList=statisticRangeList,
+                                   standardDeviationList=standardDeviationList, arithmeticAverageList=arithmeticAverageList,
+                                   geometricMeanList=geometricMeanList, kurtosisList=kurtosisList)
+        else:
+            return render_template('index.html')
+    except Exception as e:
+        return render_template("500error.html", error=str(e))
+
+@app.route('/getCountry/<country_name>', methods=['POST', 'GET'])
+def get_sale(country_name):
+    print(country_name)
+    return render_template("new.html")
+
+
 
 
 '''def calculateForAllCountries(year, sex, age_range, currency):
@@ -124,7 +120,6 @@ def result():
     print(arithmeticAverageList)
     print(geometricMeanList)
     print(kurtosisList)'''
-
 
 """def calculateAverage(year, sex, age_range, currency):
     allJsonFileData = []
