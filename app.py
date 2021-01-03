@@ -10,10 +10,10 @@ from scipy import stats
 app = Flask(__name__)
 
 
-countriesList = ["Belgium", "Bulgaria", "Czechia", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain", \
-                 "France", "Croatia", "Italy", "Cyprus", "Latvia", "Lithuania", "Luxembourg", "Hungary", "Malta", \
-                 "Netherlands", "Austria", "Poland", "Portugal", "Romania", "Slovenia", "Slovakia", "Finland", \
-                 "Sweden", "United Kingdom", "Iceland", "Norway", "Switzerland", "Montenegro", "North Macedonia", \
+countriesList = ["Belgium", "Bulgaria", "Czechia", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain",
+                 "France", "Croatia", "Italy", "Cyprus", "Latvia", "Lithuania", "Luxembourg", "Hungary", "Malta",
+                 "Netherlands", "Austria", "Poland", "Portugal", "Romania", "Slovenia", "Slovakia", "Finland",
+                 "Sweden", "United Kingdom", "Iceland", "Norway", "Switzerland", "Montenegro", "North Macedonia",
                  "Serbia", "Turkey"]
 
 
@@ -74,32 +74,21 @@ def get_sale(country_name):
             age50_64List = []
             femaleList = []
             maleList = []
-            List2013 = []
-            List2014 = []
-            List2015 = []
-            List2016 = []
-            List2017 = []
-            List2018 = []
-            List2019 = []
+            averageYearList = []
             if category == "age":
                 age18_24List, age25_49List, age50_64List = getListsAgeClass(country_name, currency)
                 print(age18_24List)
                 print(age25_49List)
                 print(age50_64List)
             elif category == "sex":
-                getListsSex(country_name, currency)
+                femaleList, maleList = getListsSex(country_name, currency)
+                print(femaleList)
+                print(maleList)
             elif category == "year":
-                List2013, List2014, List2015, List2016, List2017, List2018, List2019 = getListsYear(country_name, currency)
-                print(List2013)
-                print(List2014)
-                print(List2015)
-                print(List2016)
-                print(List2017)
-                print(List2018)
-                print(List2019)
-            return render_template("countryInfo.html", country_name=country_name, age18_24List=age18_24List, age25_49List=age25_49List,
-                                   age50_64List=age50_64List, femaleList=femaleList, maleList=maleList, List2013=List2013, List2014=List2014,
-                                   List2015=List2015, List2016=List2016, List2017=List2017, List2018=List2018, List2019=List2019)
+                averageYearList = getListsYear(country_name, currency)
+                print(averageYearList)
+            return render_template("countryInfo.html", category=category, country_name=country_name, age18_24List=age18_24List, age25_49List=age25_49List,
+                                   age50_64List=age50_64List, femaleList=femaleList, maleList=maleList, averageYearList=averageYearList)
         else:
             return render_template("countryInfo.html", country_name=country_name)
     except Exception as e:
@@ -108,26 +97,119 @@ def get_sale(country_name):
 
 def getListsAgeClass(country_name, currency):
     allJsonFileData = []
+    averageList = []
+    index = 0
     age18_24List = []
     age25_49List = []
     age50_64List = []
-    index = 0
+    List2013_18_24 = []
+    List2013_25_49 = []
+    List2013_50_64 = []
+    List2014_18_24 = []
+    List2014_25_49 = []
+    List2014_50_64 = []
+    List2015_18_24 = []
+    List2015_25_49 = []
+    List2015_50_64 = []
+    List2016_18_24 = []
+    List2016_25_49 = []
+    List2016_50_64 = []
+    List2017_18_24 = []
+    List2017_25_49 = []
+    List2017_50_64 = []
+    List2018_18_24 = []
+    List2018_25_49 = []
+    List2018_50_64 = []
+    List2019_18_24 = []
+    List2019_25_49 = []
+    List2019_50_64 = []
     with open('dane/dane.json') as json_file:
         for country in json_file:
             allJsonFileData.append(json.loads(country))
-            if allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['age_class'] == "18-24":
-                age18_24List.append(allJsonFileData[index][currency])
-            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['age_class'] == "25-49":
-                age25_49List.append(allJsonFileData[index][currency])
-            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['age_class'] == "50-64":
-                age50_64List.append(allJsonFileData[index][currency])
+            if allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2013" and allJsonFileData[index]['age_class'] == "18-24":
+                List2013_18_24.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2013" and allJsonFileData[index]['age_class'] == "25-49":
+                List2013_25_49.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2013" and allJsonFileData[index]['age_class'] == "50-64":
+                List2013_50_64.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2014" and allJsonFileData[index]['age_class'] == "18-24":
+                List2014_18_24.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2014" and allJsonFileData[index]['age_class'] == "25-49":
+                List2014_25_49.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2014" and allJsonFileData[index]['age_class'] == "50-64":
+                List2014_50_64.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2015" and allJsonFileData[index]['age_class'] == "18-24":
+                List2015_18_24.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2015" and allJsonFileData[index]['age_class'] == "25-49":
+                List2015_25_49.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2015" and allJsonFileData[index]['age_class'] == "50-64":
+                List2015_50_64.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2016" and allJsonFileData[index]['age_class'] == "18-24":
+                List2016_18_24.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2016" and allJsonFileData[index]['age_class'] == "25-49":
+                List2016_25_49.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2016" and allJsonFileData[index]['age_class'] == "50-64":
+                List2016_50_64.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2017" and allJsonFileData[index]['age_class'] == "18-24":
+                List2017_18_24.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2017" and allJsonFileData[index]['age_class'] == "25-49":
+                List2017_25_49.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2017" and allJsonFileData[index]['age_class'] == "50-64":
+                List2017_50_64.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2018" and allJsonFileData[index]['age_class'] == "18-24":
+                List2018_18_24.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2018" and allJsonFileData[index]['age_class'] == "25-49":
+                List2018_25_49.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2018" and allJsonFileData[index]['age_class'] == "50-64":
+                List2018_50_64.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2019" and allJsonFileData[index]['age_class'] == "18-24":
+                List2019_18_24.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2019" and allJsonFileData[index]['age_class'] == "25-49":
+                List2019_25_49.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2019" and allJsonFileData[index]['age_class'] == "50-64":
+                List2019_50_64.append(allJsonFileData[index][currency])
             index += 1
+
+    age18_24List.append(numpy.round(numpy.mean(List2013_18_24), 2))
+    age25_49List.append(numpy.round(numpy.mean(List2013_25_49), 2))
+    age50_64List.append(numpy.round(numpy.mean(List2013_50_64), 2))
+    age18_24List.append(numpy.round(numpy.mean(List2014_18_24), 2))
+    age25_49List.append(numpy.round(numpy.mean(List2014_25_49), 2))
+    age50_64List.append(numpy.round(numpy.mean(List2014_50_64), 2))
+    age18_24List.append(numpy.round(numpy.mean(List2015_18_24), 2))
+    age25_49List.append(numpy.round(numpy.mean(List2015_25_49), 2))
+    age50_64List.append(numpy.round(numpy.mean(List2015_50_64), 2))
+    age18_24List.append(numpy.round(numpy.mean(List2016_18_24), 2))
+    age25_49List.append(numpy.round(numpy.mean(List2016_25_49), 2))
+    age50_64List.append(numpy.round(numpy.mean(List2016_50_64), 2))
+    age18_24List.append(numpy.round(numpy.mean(List2017_18_24), 2))
+    age25_49List.append(numpy.round(numpy.mean(List2017_25_49), 2))
+    age50_64List.append(numpy.round(numpy.mean(List2017_50_64), 2))
+    age18_24List.append(numpy.round(numpy.mean(List2018_18_24), 2))
+    age25_49List.append(numpy.round(numpy.mean(List2018_25_49), 2))
+    age50_64List.append(numpy.round(numpy.mean(List2018_50_64), 2))
+    if not List2019_18_24:
+        age18_24List.append(0)
+    else:
+        age18_24List.append(numpy.round(numpy.mean(List2019_18_24), 2))
+    if not List2019_25_49:
+        age25_49List.append(0)
+    else:
+        age25_49List.append(numpy.round(numpy.mean(List2019_25_49), 2))
+    if not List2019_50_64:
+        age50_64List.append(0)
+    else:
+        age50_64List.append(numpy.round(numpy.mean(List2019_50_64), 2))
+    print(age18_24List)
+    print(age25_49List)
+    print(age50_64List)
     return age18_24List, age25_49List, age50_64List
 
 
 def getListsYear(country_name, currency):
     allJsonFileData = []
     index = 0
+    averageYearList = []
     List2013 = []
     List2014 = []
     List2015 = []
@@ -153,22 +235,91 @@ def getListsYear(country_name, currency):
             elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2019":
                 List2019.append(allJsonFileData[index][currency])
             index += 1
-    return List2013, List2014, List2015, List2016, List2017, List2018, List2019
+
+    averageYearList.append(numpy.round(numpy.mean(List2013), 2))
+    averageYearList.append(numpy.round(numpy.mean(List2014), 2))
+    averageYearList.append(numpy.round(numpy.mean(List2015), 2))
+    averageYearList.append(numpy.round(numpy.mean(List2016), 2))
+    averageYearList.append(numpy.round(numpy.mean(List2017), 2))
+    averageYearList.append(numpy.round(numpy.mean(List2018), 2))
+    if not List2019:
+        averageYearList.append(0)
+    else:
+        averageYearList.append(numpy.round(numpy.mean(List2019), 2))
+    return averageYearList
 
 
 def getListsSex(country_name, currency):
     allJsonFileData = []
     femaleList = []
     maleList = []
+    List2013_Females = []
+    List2013_Males = []
+    List2014_Females = []
+    List2014_Males = []
+    List2015_Females = []
+    List2015_Males = []
+    List2016_Females = []
+    List2016_Males = []
+    List2017_Females = []
+    List2017_Males = []
+    List2018_Females = []
+    List2018_Males = []
+    List2019_Females = []
+    List2019_Males = []
     index = 0
     with open('dane/dane.json') as json_file:
         for country in json_file:
             allJsonFileData.append(json.loads(country))
-            if allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['sex'] == "Females":
-                femaleList.append(allJsonFileData[index][currency])
-            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['sex'] == "Males":
-                maleList.append(allJsonFileData[index][currency])
+            if allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2013" and allJsonFileData[index]['sex'] == "Females":
+                List2013_Females.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2013" and allJsonFileData[index]['sex'] == "Males":
+                List2013_Males.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2014" and allJsonFileData[index]['sex'] == "Females":
+                List2014_Females.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2014" and allJsonFileData[index]['sex'] == "Males":
+                List2014_Males.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2015" and allJsonFileData[index]['sex'] == "Females":
+                List2015_Females.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2015" and allJsonFileData[index]['sex'] == "Males":
+                List2015_Males.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2016" and allJsonFileData[index]['sex'] == "Females":
+                List2016_Females.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2016" and allJsonFileData[index]['sex'] == "Males":
+                List2016_Males.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2017" and allJsonFileData[index]['sex'] == "Females":
+                List2017_Females.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2017" and allJsonFileData[index]['sex'] == "Males":
+                List2017_Males.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2018" and allJsonFileData[index]['sex'] == "Females":
+                List2018_Females.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2018" and allJsonFileData[index]['sex'] == "Males":
+                List2018_Males.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2019" and allJsonFileData[index]['sex'] == "Females":
+                List2019_Females.append(allJsonFileData[index][currency])
+            elif allJsonFileData[index]['country'] == country_name and allJsonFileData[index]['year'] == "2019" and allJsonFileData[index]['sex'] == "Males":
+                List2019_Males.append(allJsonFileData[index][currency])
             index += 1
+    femaleList.append(numpy.round(numpy.mean(List2013_Females), 2))
+    femaleList.append(numpy.round(numpy.mean(List2014_Females), 2))
+    femaleList.append(numpy.round(numpy.mean(List2015_Females), 2))
+    femaleList.append(numpy.round(numpy.mean(List2016_Females), 2))
+    femaleList.append(numpy.round(numpy.mean(List2017_Females), 2))
+    femaleList.append(numpy.round(numpy.mean(List2018_Females), 2))
+    if not List2019_Females:
+        femaleList.append(0)
+    else:
+        femaleList.append(numpy.round(numpy.mean(List2019_Females), 2))
+    maleList.append(numpy.round(numpy.mean(List2013_Males), 2))
+    maleList.append(numpy.round(numpy.mean(List2014_Males), 2))
+    maleList.append(numpy.round(numpy.mean(List2015_Males), 2))
+    maleList.append(numpy.round(numpy.mean(List2016_Males), 2))
+    maleList.append(numpy.round(numpy.mean(List2017_Males), 2))
+    maleList.append(numpy.round(numpy.mean(List2018_Males), 2))
+    if not List2019_Males:
+        maleList.append(0)
+    else:
+        maleList.append(numpy.round(numpy.mean(List2019_Males), 2))
     return femaleList, maleList
 
 

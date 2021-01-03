@@ -30,4 +30,131 @@
             <button type="submit" class="btn btn-primary mx-3 mb-3">Zatwierdź</button>
         </div>
     </form>
+    <div id="content"></div>
+    <script>
+    var chartEl = document.getElementById('content')
+    var content
+    if ("{{ category }}" == "age"){
+        content = '<canvas id="ageChart"></canvas>'
+    } else if ("{{ category }}" == "sex") {
+        content = '<canvas id="femaleMaleChart"></canvas>'
+    } else if ("{{ category }}" == "year") {
+        content = '<canvas id="yearChart"></canvas>'
+    } else {
+        content = '<h1> </h1>'
+    }
+    chartEl.insertAdjacentHTML('afterbegin', content)
+    </script>
+    <script>
+        var mychart = document.getElementById("ageChart").getContext("2d");
+
+        var chart = new Chart(mychart, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: "Przedział wiekowy 18-24",
+                    data: [
+                        {% for item in age18_24List %}
+                        "{{ item }}",
+                        {% endfor %}
+                    ],
+                    borderColor: 'rgba(237, 45, 45)',
+                }, {
+                    label: "Przedział wiekowy 25-49",
+                    data: [
+                        {% for item in age25_49List %}
+                        "{{ item }}",
+                        {% endfor %}
+                    ],
+                    borderColor: 'rgba(92, 224, 85)',
+                }, {
+                    label: "Przedział wiekowy 50-64",
+                    data: [
+                        {% for item in age50_64List %}
+                        "{{ item }}",
+                        {% endfor %}
+                    ],
+                    type: "line",
+                    borderColor: 'rgba(185, 85, 224)',
+                }],
+            labels: [2013, 2014, 2015, 2016, 2017, 2018, 2019]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Porównanie przychodu dla poszczególnych grup wiekowych'
+                }
+            }
+        });
+    </script>
+    <script>
+        var mychart = document.getElementById("femaleMaleChart").getContext("2d");
+
+        var chart = new Chart(mychart, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: "Kobiety",
+                    data: [
+                        {% for item in femaleList %}
+                        "{{ item }}",
+                        {% endfor %}
+                    ],
+                    borderColor: 'rgba(237, 45, 45)',
+                    fill: false
+                }, {
+                    label: "Mężczyźni",
+                    data: [
+                        {% for item in maleList %}
+                        "{{ item }}",
+                        {% endfor %}
+                    ],
+                    borderColor: 'rgba(92, 224, 85)',
+                    fill: false
+                }],
+            labels: [2013, 2014, 2015, 2016, 2017, 2018, 2019]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Porównane przychodu dla obu płci'
+                }
+            }
+        });
+    </script>
+    <script>
+        var mychart = document.getElementById("yearChart").getContext("2d");
+
+        var chart = new Chart(mychart, {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    data: [
+                        {% for item in averageYearList %}
+                        "{{ item }}",
+                        {% endfor %}
+                    ],
+                    backgroundColor: 'rgba(240, 117, 50)',
+                    borderColor: 'rgba(0, 0, 0, 1)',
+                    borderWidth: 1,
+                    label: "Średni przychód w danym roku"
+                }],
+            labels: [2013, 2014, 2015, 2016, 2017, 2018, 2019]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Porównanie przychodu dla poszczególnych lat'
+                },
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        });
+    </script>
 {% endblock %}
