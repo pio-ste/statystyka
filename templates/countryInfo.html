@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block countryInfo %}
+<form class="mt-2 bg-light" action="http://localhost:5000/getCountry/{{ country_name }}" method="POST">
+        <h3 style="text-align: center">Dane statystyczne dla wybranego kraju:</h3>
+        <h6 class="ml-2">Kategorie:</h6>
+        <div class="form-row">
+            <div class="custom-control custom-radio ml-2 mt-1">
+                <input type="radio" id="sexRadio" name="category" value="sex" class="input1" checked="checked">
+                <label class="label1" for="sexRadio">Porównane przychodu dla obu płci</label>
+            </div>
+            <div class="custom-control custom-radio ml-2 mt-1">
+              <input type="radio" id="ageRadio" name="category" value="age" class="input1">
+              <label class="label1" for="ageRadio">Porównanie przychodu dla poszczególnych grup wiekowych</label>
+            </div>
+            <div class="custom-control custom-radio ml-2 mt-1">
+              <input type="radio" id="yearRadio" name="category" value="year" class="input1">
+              <label class="label1" for="yearRadio">Porównanie przychodu dla poszczególnych lat</label>
+            </div>
+        </div>
+        <h6 class="ml-2">Waluta:</h6>
+        <div class="form-row">
+            <div class="custom-control custom-radio ml-2 mt-1">
+              <input type="radio" id="incomeEuroRadio" name="currency" value="mean_equivalised_net_income_euro" class="input2" checked="checked">
+              <label class="label2" for="incomeEuroRadio">Euro</label>
+            </div>
+            <div class="custom-control custom-radio ml-2 mt-1">
+                  <input type="radio" id="incomeNationalRadio" name="currency" value="mean_equivalised_net_income_national_currency" class="input2">
+                  <label class="label2" for="incomeNationalRadio">Narodowa</label>
+            </div>
+            <button type="submit" class="btn btn-primary mx-3 mb-3">Zatwierdź</button>
+        </div>
+    </form>
+{% endblock %}
