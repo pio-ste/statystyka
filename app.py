@@ -58,7 +58,12 @@ def result():
                                    arithmeticAverageList=arithmeticAverageList,
                                    geometricMeanList=geometricMeanList, kurtosisList=kurtosisList)
         else:
-            return render_template('index.html')
+            arithmeticAverageList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            year = "2013-2019"
+            sex = "Females"
+            age_range = "18-24"
+            currency = "mean_equivalised_net_income_euro"
+            return render_template('index.html', year=year, sex=sex, age_range=age_range, currency=currency, arithmeticAverageList=arithmeticAverageList)
     except Exception as e:
         return render_template("500error.html", error=str(e))
 
@@ -97,7 +102,6 @@ def get_sale(country_name):
 
 def getListsAgeClass(country_name, currency):
     allJsonFileData = []
-    averageList = []
     index = 0
     age18_24List = []
     age25_49List = []
@@ -399,22 +403,6 @@ def getDataCountry(year, sex, age_range, currency, countryName):
                 allJsonFileData.append(json.loads(country))
                 if allJsonFileData[index]['country'] == countryName and allJsonFileData[index]['sex'] == sex and \
                         allJsonFileData[index]['age_class'] == age_range:
-                    finalData.append(allJsonFileData[index][currency])
-                index += 1
-    elif sex == "FemalesMales":
-        with open('dane/dane.json') as json_file:
-            for country in json_file:
-                allJsonFileData.append(json.loads(country))
-                if allJsonFileData[index]['country'] == countryName and allJsonFileData[index]['year'] == year and \
-                        allJsonFileData[index]['age_class'] == age_range:
-                    finalData.append(allJsonFileData[index][currency])
-                index += 1
-    elif age_range == "18-64":
-        with open('dane/dane.json') as json_file:
-            for country in json_file:
-                allJsonFileData.append(json.loads(country))
-                if allJsonFileData[index]['country'] == countryName and allJsonFileData[index]['year'] == year and \
-                        allJsonFileData[index]['sex'] == sex:
                     finalData.append(allJsonFileData[index][currency])
                 index += 1
     else:
