@@ -46,11 +46,24 @@
         </div>
 
     </form>
+    <div id="tmp">
+
+    </div>
     <div id="mypopup">
         <img src="" id="popupArithmeticAverageList" height="25" width="50">
         <img src="" id="popupSex" height="240" width="270">
         <img src="" id="popupAge_range" height="25" width="60">
-        <img src="" id="popupCurrency" height="250" width="175">
+        <!--<img src="" id="popupCurrency" height="250" width="175">-->
+
+        <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+             width="155" height="230" viewBox="0 0 250.000000 349.000000"
+             preserveAspectRatio="xMidYMid meet" id="popupCurrency">
+            <g transform="translate(0.000000,349.000000) scale(0.100000,-0.100000)"
+            fill="black" stroke="none" stroke-width="3">
+            <path id="popupCurrencyOut" d=""/>
+            <path id="popupCurrencyIn" d=""/>
+            </g>
+        </svg>
     </div>
 <div class="mapdiv">
     <svg  version="1.2" viewbox="0 0 1000 684" xmlns="http://www.w3.org/2000/svg">
@@ -69,15 +82,38 @@
                     popupAT.style.display = "block";
                     if(Number({{ arithmeticAverageList[19] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[19] }}) && Number({{ arithmeticAverageList[19] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[19] }}) && Number({{ arithmeticAverageList[19] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[19] }}) > Number(15001)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[19] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[19] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupAT.style.display = "none"
@@ -99,14 +135,38 @@
                     popupBE.style.display = "block";
                     if(Number({{ arithmeticAverageList[0] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[0] }}) && Number({{ arithmeticAverageList[0] }})< Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[0] }}) && Number({{ arithmeticAverageList[0] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[0] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[0] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[0] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
 
                 }
                 function hidePopup(){
@@ -129,15 +189,38 @@
                     popupBG.style.display = "block";
                     if(Number({{ arithmeticAverageList[1] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[1] }}) &&  Number({{ arithmeticAverageList[1] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[1] }}) &&  Number({{ arithmeticAverageList[1] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[1] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[1] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[1] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupBG.style.display = "none"
@@ -157,17 +240,40 @@
                     popupCH.style.left = (iconPos.right + 10) + "px";
                     popupCH.style.top = (window.scrollY + iconPos.top - 60) + "px";
                     popupCH.style.display = "block";
-                    if(Number({{ arithmeticAverageList[28] }}) < Number(5000)){
+                    if(Number({{ arithmeticAverageList[30] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[28] }}) && Number({{ arithmeticAverageList[28] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[30] }}) && Number({{ arithmeticAverageList[28] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
-                    } else if (Number({{ arithmeticAverageList[28] }}) > Number(15000)){
+                    } else if (Number({{ arithmeticAverageList[30] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[30] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[30] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupCH.style.display = "none"
@@ -189,15 +295,38 @@
                     popupCZ.style.display = "block";
                     if(Number({{ arithmeticAverageList[2] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[2] }}) && Number({{ arithmeticAverageList[2] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[2] }}) && Number({{ arithmeticAverageList[2] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[2] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[2] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[2] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupCZ.style.display = "none"
@@ -219,15 +348,38 @@
                     popupDE.style.display = "block";
                     if(Number({{ arithmeticAverageList[4] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[4] }}) && Number({{ arithmeticAverageList[4] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[4] }}) && Number({{ arithmeticAverageList[4] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[4] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[4] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[4] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupDE.style.display = "none"
@@ -249,15 +401,38 @@
                     popupDK.style.display = "block";
                     if(Number({{ arithmeticAverageList[3] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[3] }}) && Number({{ arithmeticAverageList[3] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[3] }}) && Number({{ arithmeticAverageList[3] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[3] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[3] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[3] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupDK.style.display = "none"
@@ -279,15 +454,38 @@
                     popupEE.style.display = "block";
                     if(Number({{ arithmeticAverageList[5] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[5] }}) && Number({{ arithmeticAverageList[5] }}) < Number(15000)) {
+                    } else if (Number(5000) < Number({{ arithmeticAverageList[5] }}) && Number({{ arithmeticAverageList[5] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[5] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[5] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[5] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupEE.style.display = "none"
@@ -307,17 +505,40 @@
                     popupFI.style.left = (iconPos.right + 10) + "px";
                     popupFI.style.top = (window.scrollY + iconPos.top - 60) + "px";
                     popupFI.style.display = "block";
-                    if(Number({{ arithmeticAverageList[23] }}) < Number(5000)){
+                    if(Number({{ arithmeticAverageList[25] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[23] }}) && Number({{ arithmeticAverageList[23] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[25] }}) && Number({{ arithmeticAverageList[23] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
-                    } else if (Number({{ arithmeticAverageList[23] }}) > Number(15000)){
+                    } else if (Number({{ arithmeticAverageList[25] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[25] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[25] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupFI.style.display = "none"
@@ -337,17 +558,40 @@
                     popupGB.style.left = (iconPos.right + 10) + "px";
                     popupGB.style.top = (window.scrollY + iconPos.top - 60) + "px";
                     popupGB.style.display = "block";
-                    if(Number({{ arithmeticAverageList[25] }}) < Number(5000)){
+                    if(Number({{ arithmeticAverageList[27] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[25] }}) && Number({{ arithmeticAverageList[25] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[27] }}) && Number({{ arithmeticAverageList[25] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
-                    } else if (Number({{ arithmeticAverageList[25] }}) > Number(15000)){
+                    } else if (Number({{ arithmeticAverageList[27] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[27] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[27] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupGB.style.display = "none"
@@ -369,15 +613,38 @@
                     popupGR.style.display = "block";
                     if(Number({{ arithmeticAverageList[7] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[7] }}) && Number({{ arithmeticAverageList[7] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[7] }}) && Number({{ arithmeticAverageList[7] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[7] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[7] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[7] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupGR.style.display = "none"
@@ -399,15 +666,38 @@
                     popupHR.style.display = "block";
                     if(Number({{ arithmeticAverageList[10] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[10] }}) && Number({{ arithmeticAverageList[10] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[10] }}) && Number({{ arithmeticAverageList[10] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[10] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[10] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[10] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupHR.style.display = "none"
@@ -429,15 +719,38 @@
                     popupHU.style.display = "block";
                     if(Number({{ arithmeticAverageList[16] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[16] }}) && Number({{ arithmeticAverageList[16] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[16] }}) && Number({{ arithmeticAverageList[16] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[16] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[16] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[16] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupHU.style.display = "none"
@@ -459,15 +772,38 @@
                     popupIE.style.display = "block";
                     if(Number({{ arithmeticAverageList[6] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[6] }}) && Number({{ arithmeticAverageList[6] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[6] }}) && Number({{ arithmeticAverageList[6] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[6] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[6] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[6] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupIE.style.display = "none"
@@ -487,17 +823,40 @@
                     popupIS.style.left = (iconPos.right + 10) + "px";
                     popupIS.style.top = (window.scrollY + iconPos.top - 60) + "px";
                     popupIS.style.display = "block";
-                    if(Number({{ arithmeticAverageList[26] }}) < Number(5000)){
+                    if(Number({{ arithmeticAverageList[28] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[26] }}) && Number({{ arithmeticAverageList[26] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[28] }}) && Number({{ arithmeticAverageList[26] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
-                    } else if (Number({{ arithmeticAverageList[26] }}) > Number(15000)){
+                    } else if (Number({{ arithmeticAverageList[28] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[28] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[28] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupIS.style.display = "none"
@@ -519,15 +878,38 @@
                     popupIT.style.display = "block";
                     if(Number({{ arithmeticAverageList[11] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[11] }}) && Number({{ arithmeticAverageList[11] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[11] }}) && Number({{ arithmeticAverageList[11] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[11] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[11] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[11] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupIT.style.display = "none"
@@ -549,15 +931,38 @@
                     popupLT.style.display = "block";
                     if(Number({{ arithmeticAverageList[14] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[14] }}) && Number({{ arithmeticAverageList[14] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[14] }}) && Number({{ arithmeticAverageList[14] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[14] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[14] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[14] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupLT.style.display = "none"
@@ -579,15 +984,38 @@
                     popupLU.style.display = "block";
                     if(Number({{ arithmeticAverageList[15] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[15] }}) && Number({{ arithmeticAverageList[15] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[15] }}) && Number({{ arithmeticAverageList[15] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[15] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[15] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[15] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupLU.style.display = "none"
@@ -609,15 +1037,38 @@
                     popupLV.style.display = "block";
                     if(Number({{ arithmeticAverageList[13] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[13] }}) && Number({{ arithmeticAverageList[13] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[13] }}) && Number({{ arithmeticAverageList[13] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[13] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[13] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[13] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupLV.style.display = "none"
@@ -637,17 +1088,40 @@
                     popupMK.style.left = (iconPos.right + 10) + "px";
                     popupMK.style.top = (window.scrollY + iconPos.top - 60) + "px";
                     popupMK.style.display = "block";
-                    if(Number({{ arithmeticAverageList[30] }}) < Number(5000)){
+                    if(Number({{ arithmeticAverageList[32] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[30] }}) && Number({{ arithmeticAverageList[30] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[32] }}) && Number({{ arithmeticAverageList[30] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
-                    } else if (Number({{ arithmeticAverageList[30] }}) > Number(15000)){
+                    } else if (Number({{ arithmeticAverageList[32] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[32] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[32] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupMK.style.display = "none"
@@ -667,17 +1141,40 @@
                     popupME.style.left = (iconPos.right + 10) + "px";
                     popupME.style.top = (window.scrollY + iconPos.top - 60) + "px";
                     popupME.style.display = "block";
-                    if(Number({{ arithmeticAverageList[29] }}) < Number(5000)){
+                    if(Number({{ arithmeticAverageList[31] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[29] }}) && Number({{ arithmeticAverageList[29] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[31] }}) && Number({{ arithmeticAverageList[29] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
-                    } else if (Number({{ arithmeticAverageList[29] }}) > Number(15000)){
+                    } else if (Number({{ arithmeticAverageList[31] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[31] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[31] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupME.style.display = "none"
@@ -697,17 +1194,40 @@
                     popupNO.style.left = (iconPos.right + 10) + "px";
                     popupNO.style.top = (window.scrollY + iconPos.top - 60) + "px";
                     popupNO.style.display = "block";
-                    if(Number({{ arithmeticAverageList[27] }}) < Number(5000)){
+                    if(Number({{ arithmeticAverageList[29] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[27] }}) && Number({{ arithmeticAverageList[27] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[29] }}) && Number({{ arithmeticAverageList[27] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
-                    } else if (Number({{ arithmeticAverageList[27] }}) > Number(15000)){
+                    } else if (Number({{ arithmeticAverageList[29] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[29] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[29] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupNO.style.display = "none"
@@ -727,17 +1247,40 @@
                     popupPL.style.left = (iconPos.right + 10) + "px";
                     popupPL.style.top = (window.scrollY + iconPos.top - 60) + "px";
                     popupPL.style.display = "block";
-                    if(Number({{ arithmeticAverageList[18] }}) < Number(5000)){
+                    if(Number({{ arithmeticAverageList[20] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[18] }}) && Number({{ arithmeticAverageList[18] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[20] }}) && Number({{ arithmeticAverageList[18] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
-                    } else if (Number({{ arithmeticAverageList[18] }}) > Number(15000)){
+                    } else if (Number({{ arithmeticAverageList[20] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[20] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[20] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupPL.style.display = "none"
@@ -759,15 +1302,38 @@
                     popupPT.style.display = "block";
                     if(Number({{ arithmeticAverageList[21] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[21] }}) && Number({{ arithmeticAverageList[21] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[21] }}) && Number({{ arithmeticAverageList[21] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[21] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[21] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[21] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupPT.style.display = "none"
@@ -787,17 +1353,40 @@
                     popupRO.style.left = (iconPos.right + 10) + "px";
                     popupRO.style.top = (window.scrollY + iconPos.top - 60) + "px";
                     popupRO.style.display = "block";
-                    if(Number({{ arithmeticAverageList[20] }}) < Number(5000)){
+                    if(Number({{ arithmeticAverageList[22] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[20] }}) && Number({{ arithmeticAverageList[20] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[22] }}) && Number({{ arithmeticAverageList[20] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
-                    } else if (Number({{ arithmeticAverageList[20] }}) > Number(15000)){
+                    } else if (Number({{ arithmeticAverageList[22] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[22] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[22] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupRO.style.display = "none"
@@ -817,17 +1406,40 @@
                     popupRS.style.left = (iconPos.right + 10) + "px";
                     popupRS.style.top = (window.scrollY + iconPos.top - 60) + "px";
                     popupRS.style.display = "block";
-                    if(Number({{ arithmeticAverageList[31] }}) < Number(5000)){
+                    if(Number({{ arithmeticAverageList[33] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[31] }}) && Number({{ arithmeticAverageList[31] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[33] }}) && Number({{ arithmeticAverageList[31] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
-                    } else if (Number({{ arithmeticAverageList[31] }}) > Number(15000)){
+                    } else if (Number({{ arithmeticAverageList[33] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[33] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[33] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupRS.style.display = "none"
@@ -847,17 +1459,40 @@
                     popupSK.style.left = (iconPos.right + 10) + "px";
                     popupSK.style.top = (window.scrollY + iconPos.top - 60) + "px";
                     popupSK.style.display = "block";
-                    if(Number({{ arithmeticAverageList[22] }}) < Number(5000)){
+                    if(Number({{ arithmeticAverageList[24] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[22] }}) && Number({{ arithmeticAverageList[22] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[24] }}) && Number({{ arithmeticAverageList[22] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
-                    } else if (Number({{ arithmeticAverageList[22] }}) > Number(15000)){
+                    } else if (Number({{ arithmeticAverageList[24] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[24] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[24] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupSK.style.display = "none"
@@ -877,17 +1512,40 @@
                     popupSI.style.left = (iconPos.right + 10) + "px";
                     popupSI.style.top = (window.scrollY + iconPos.top - 60) + "px";
                     popupSI.style.display = "block";
-                    if(Number({{ arithmeticAverageList[21] }}) < Number(5000)){
+                    if(Number({{ arithmeticAverageList[23] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[21] }}) && Number({{ arithmeticAverageList[21] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[23] }}) && Number({{ arithmeticAverageList[21] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
-                    } else if (Number({{ arithmeticAverageList[21] }}) > Number(15000)){
+                    } else if (Number({{ arithmeticAverageList[23] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[23] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[23] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupSI.style.display = "none"
@@ -907,17 +1565,40 @@
                     popupSE.style.left = (iconPos.right + 10) + "px";
                     popupSE.style.top = (window.scrollY + iconPos.top - 60) + "px";
                     popupSE.style.display = "block";
-                    if(Number({{ arithmeticAverageList[24] }}) < Number(5000)){
+                    if(Number({{ arithmeticAverageList[26] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[24] }}) && Number({{ arithmeticAverageList[24] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[26] }}) && Number({{ arithmeticAverageList[24] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
-                    } else if (Number({{ arithmeticAverageList[24] }}) > Number(15000)){
+                    } else if (Number({{ arithmeticAverageList[26] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[26] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[26] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupSE.style.display = "none"
@@ -937,17 +1618,40 @@
                     popupTR.style.left = (iconPos.right + 10) + "px";
                     popupTR.style.top = (window.scrollY + iconPos.top - 60) + "px";
                     popupTR.style.display = "block";
-                    if(Number({{ arithmeticAverageList[32] }}) < Number(5000)){
+                    if(Number({{ arithmeticAverageList[34] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[32] }}) && Number({{ arithmeticAverageList[32] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[34] }}) && Number({{ arithmeticAverageList[32] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
-                    } else if (Number({{ arithmeticAverageList[32] }}) > Number(15000)){
+                    } else if (Number({{ arithmeticAverageList[34] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[34] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[34] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupTR.style.display = "none"
@@ -969,15 +1673,38 @@
                     popupNL.style.display = "block";
                     if(Number({{ arithmeticAverageList[18] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[18] }}) && Number({{ arithmeticAverageList[18] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[18] }}) && Number({{ arithmeticAverageList[18] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[18] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[18] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[18] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupNL.style.display = "none"
@@ -999,15 +1726,38 @@
                     popupES.style.display = "block";
                     if(Number({{ arithmeticAverageList[8] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[8] }}) && Number({{ arithmeticAverageList[8] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[8] }}) && Number({{ arithmeticAverageList[8] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[8] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[8] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[8] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupES.style.display = "none"
@@ -1029,15 +1779,38 @@
                     popupFR.style.display = "block";
                     if(Number({{ arithmeticAverageList[9] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[9] }}) && Number({{ arithmeticAverageList[9] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[9] }}) && Number({{ arithmeticAverageList[9] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if (Number({{ arithmeticAverageList[9] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[9] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[9] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupFR.style.display = "none"
@@ -1059,15 +1832,38 @@
                     popupCY.style.display = "block";
                     if(Number({{ arithmeticAverageList[12] }}) < Number(5000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/low.png"
-                    } else if (Number(5001) < Number({{ arithmeticAverageList[12] }}) && Number({{ arithmeticAverageList[12] }}) < Number(15000)) {
+                    } else if (Number(5000) <= Number({{ arithmeticAverageList[12] }}) && Number({{ arithmeticAverageList[12] }}) <= Number(15000)) {
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/medium.png"
                     } else if(Number({{ arithmeticAverageList[12] }}) > Number(15000)){
                         document.getElementById("popupArithmeticAverageList").src = "/static/img/income/high.png"
                     }
                     document.getElementById("popupSex").src = "/static/img/gender/{{ sex }}.png"
                     document.getElementById("popupAge_range").src = "/static/img/age/{{ age_range }}.png"
-                    document.getElementById("popupCurrency").src = "/static/img/currency/{{ currency }}.png"
-
+                    if(String({{ currency|tojson }})==="mean_equivalised_net_income_euro"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1120 3064 c-310 -83 -554 -471 -637 -1014 -24 -159 -24 -501 0 -660\n" +
+                            "84 -548 328 -934 642 -1015 75 -19 135 -19 210 0 314 81 558 468 642 1015 24\n" +
+                            "159 24 501 0 660 -84 547 -328 934 -642 1015 -73 19 -143 18 -215 -1z m202\n" +
+                            "-25 c324 -70 580 -513 638 -1104 56 -582 -127 -1194 -428 -1430 -353 -278\n" +
+                            "-749 -26 -935 595 -184 612 -63 1407 268 1759 141 150 301 213 457 180z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1145 3026 c-288 -72 -519 -444 -601 -966 -25 -161 -25 -519 0 -680\n" +
+                            "72 -461 268 -819 512 -934 240 -114 499 5 673 308 307 538 307 1394 0 1932\n" +
+                            "-152 264 -372 393 -584 340z");
+                    } else if (String({{ currency|tojson }})==="mean_equivalised_net_income_national_currency"){
+                        document.getElementById("popupCurrencyOut").setAttribute("d", "M1087 3075 c-592 -100 -1037 -709 -1037 -1420 0 -632 360 -1204 866\n" +
+                            "-1376 166 -57 325 -71 490 -44 375 61 703 324 884 708 212 451 212 973 0 1424\n" +
+                            "-236 502 -723 788 -1203 708z m407 -69 c465 -120 816 -571 891 -1144 94 -719\n" +
+                            "-297 -1407 -891 -1568 -86 -23 -118 -27 -244 -27 -127 0 -157 3 -244 27 -467\n" +
+                            "127 -816 576 -892 1146 -71 536 140 1100 518 1381 268 199 562 262 862 185z");
+                        document.getElementById("popupCurrencyIn").setAttribute("d", "M1095 3016 c-299 -58 -534 -216 -717 -481 -409 -590 -338 -1476 155\n" +
+                            "-1951 192 -186 384 -278 629 -303 106 -10 232 1 343 31 44 12 81 21 82 20 6\n" +
+                            "-4 171 85 228 123 82 53 261 235 317 321 307 472 342 1087 91 1588 -165 328\n" +
+                            "-422 551 -730 631 -122 32 -294 41 -398 21z");
+                    }
+                    if (Number({{ skinList[12] }}) === Number(1)){
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#ffdbac")
+                    } else if(Number({{ skinList[12] }}) === Number(2)) {
+                        document.getElementById("popupCurrencyIn").setAttribute("fill", "#8d5524")
+                    }
                 }
                 function hidePopup(){
                     popupCY.style.display = "none"
@@ -1082,10 +1878,39 @@
  </circle>
 </svg>
 </div>
-    {{ year }}
-    {{ sex }}
-    {{ age_range }}
-    {{ currency }}
+    <div>
+        <table>
+            <tr>
+                <th>Płeć (Włosy) </th>
+                <td>Kobieta: <img src="/static/img/gender/Females.png" style="margin-top: 80px" height="60" width="90"></td>
+                <td>Mężczyzna: <img src="/static/img/gender/Males.png" style="margin-top: 80px" height="60" width="90"></td>
+                <td>Kobiet-Mężczyzna: <img src="/static/img/gender/FemalesMales.png" style="margin-top: 80px" height="60" width="90"></td>
+            </tr>
+            <tr>
+                <th>Przedział wieku (Oczy) </th>
+                <td>18-24: <img src="/static/img/age/18-24.png" style="margin-top: 30px" height="20" width="50"></td>
+                <td>25-49: <img src="/static/img/age/25-49.png" style="margin-top: 30px" height="20" width="50"></td>
+                <td>50-64: <img src="/static/img/age/50-64.png" style="margin-top: 30px" height="20" width="50"></td>
+                <td>18-64: <img src="/static/img/age/18-64.png" style="margin-top: 30px" height="20" width="50"></td>
+            </tr>
+            <tr>
+                <th>Waluta (Twarz) </th>
+                <td>Euro: <img src="/static/img/currency/mean_equivalised_net_income_euro.png" style="margin-top: 120px" height="100" width="75"></td>
+                <td>Narodowa: <img src="/static/img/currency/mean_equivalised_net_income_national_currency.png" style="margin-top: 120px" height="100" width="75"></td>
+            </tr>
+            <tr>
+                <th>Średni przychód (Usta) </th>
+                <td> < 5000: <img src="/static/img/income/low.png" style="margin-top: 40px" height="20" width="50"></td>
+                <td>5000 - 15000: <img src="/static/img/income/medium.png" style="margin-top: 40px" height="20" width="50"></td>
+                <td> > 15000: <img src="/static/img/income/high.png" style="margin-top: 40px" height="20" width="50"></td>
+            </tr>
+            <tr>
+                <th>Poziom karnacji skóry (Karnacja skóry) </th>
+                <td>1: <span class="dot" style="background-color: #ffdbac"></span></td>
+                <td>2: <span class="dot" style="background-color: #8d5524"></span></td>
+            </tr>
+        </table>
+    </div>
     <canvas id="varianceChart"></canvas>
     <script>
         var barData = {
@@ -1306,46 +2131,6 @@
         }
 
         var mychart = document.getElementById("arithmeticAverageChart").getContext("2d");
-
-        steps = 10
-
-        var chart = new Chart(mychart, {
-            type: 'bar',
-            data: barData,
-            options: {
-                scales: {
-                    xAxes: [{
-                        stacked: true
-                    }],
-                    yAxes: [{
-                        stacked: true
-                    }]
-                }
-            }
-        });
-    </script>
-    <canvas id="geometricMeanChart"></canvas>
-    <script>
-        var barData = {
-            labels : [
-                {% for item in countriesList %}
-                "{{ item }}",
-                {% endfor %}
-            ],
-        datasets : [{
-            data : [
-                {% for item in geometricMeanList %}
-                    "{{ item }}",
-                {% endfor %}
-            ],
-        backgroundColor: 'rgba(199, 50, 240)',
-        borderColor: 'rgba(0, 0, 0, 1)',
-        borderWidth: 1,
-        label: "Średnia geometryczna zarobków dla poszczególnych krajów"
-        }]
-        }
-
-        var mychart = document.getElementById("geometricMeanChart").getContext("2d");
 
         steps = 10
 

@@ -27,17 +27,29 @@ body{
 #popupArithmeticAverageList {
   position: absolute;
   bottom: 70px;
-  left: 80px;
+  left: 70px;
 }
 
 #popupAge_range {
   position: absolute;
   margin-top: 70px;
-  margin-left: 55px;
+  margin-left: 45px;
 }
 
 #popupSex {
   position: absolute;
   margin-top: 10px;
-  left: -37px;
+  left: -47px;
+}
+
+
+table {
+  margin-left: 20px;
+}
+
+.dot {
+  height: 15px;
+  width: 35px;
+  border-radius: 25%;
+  display: inline-block;
 }

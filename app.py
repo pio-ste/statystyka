@@ -37,39 +37,40 @@ def result():
             standardDeviationList = []
             # średnia arytmetyczna
             arithmeticAverageList = []
-            # średnia geometryczna
-            geometricMeanList = []
             # kurtoza
             kurtosisList = []
-            varianceList, medianList, skewnessList, statisticRangeList, standardDeviationList, arithmeticAverageList, geometricMeanList, kurtosisList = calculateForAllCountries(year, sex, age_range, currency)
-            print(year, sex, age_range, currency)
+            varianceList, medianList, skewnessList, statisticRangeList, standardDeviationList, arithmeticAverageList, kurtosisList = calculateForAllCountries(year, sex, age_range, currency)
+            """print(year, sex, age_range, currency)
             print(varianceList)
             print(medianList)
             print(skewnessList)
             print(statisticRangeList)
             print(standardDeviationList)
             print(arithmeticAverageList)
-            print(geometricMeanList)
-            print(kurtosisList)
+            print(kurtosisList)"""
+            skinList = getCountrySkin(year, sex, age_range)
+            print(skinList)
             return render_template('index.html', year=year, sex=sex, age_range=age_range, currency=currency,
                                    countriesList=countriesList, varianceList=varianceList, medianList=medianList,
                                    skewnessList=skewnessList, statisticRangeList=statisticRangeList,
-                                   standardDeviationList=standardDeviationList,
-                                   arithmeticAverageList=arithmeticAverageList,
-                                   geometricMeanList=geometricMeanList, kurtosisList=kurtosisList)
+                                   standardDeviationList=standardDeviationList, arithmeticAverageList=arithmeticAverageList,
+                                   kurtosisList=kurtosisList, skinList=skinList)
         else:
             arithmeticAverageList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             year = "2013-2019"
             sex = "Females"
             age_range = "18-24"
             currency = "mean_equivalised_net_income_euro"
-            return render_template('index.html', year=year, sex=sex, age_range=age_range, currency=currency, arithmeticAverageList=arithmeticAverageList)
+            skinList = getCountrySkin(year, sex, age_range)
+
+            print(skinList)
+            return render_template('index.html', year=year, sex=sex, age_range=age_range, currency=currency, arithmeticAverageList=arithmeticAverageList, skinList=skinList)
     except Exception as e:
         return render_template("500error.html", error=str(e))
 
 
 @app.route('/getCountry/<country_name>', methods=['POST', 'GET'])
-def get_sale(country_name):
+def get_country(country_name):
     try:
         if request.method == 'POST':
             category = request.form['category']
@@ -340,8 +341,6 @@ def calculateForAllCountries(year, sex, age_range, currency):
     standardDeviationList = []
     #średnia arytmetyczna
     arithmeticAverageList = []
-    #średnia geometryczna
-    geometricMeanList = []
     #kurtoza
     kurtosisList = []
     for country in countriesList:
@@ -351,17 +350,22 @@ def calculateForAllCountries(year, sex, age_range, currency):
         statisticRangeList.append(max(getDataCountry(year, sex, age_range, currency, country)) - min(getDataCountry(year, sex, age_range, currency, country)))
         standardDeviationList.append(numpy.round(statistics.stdev(getDataCountry(year, sex, age_range, currency, country)), 2))
         arithmeticAverageList.append(numpy.round(numpy.mean(getDataCountry(year, sex, age_range, currency, country)), 2))
-        geometricMeanList.append(numpy.round(stats.gmean(getDataCountry(year, sex, age_range, currency, country)), 2))
         kurtosisList.append(numpy.round(kurtosis(getDataCountry(year, sex, age_range, currency, country), bias=False), 2))
-    print(varianceList)
+    """print(varianceList)
     print(medianList)
     print(skewnessList)
     print(statisticRangeList)
     print(standardDeviationList)
     print(arithmeticAverageList)
-    print(geometricMeanList)
-    print(kurtosisList)
-    return varianceList, medianList, skewnessList, statisticRangeList, standardDeviationList, arithmeticAverageList, geometricMeanList, kurtosisList
+    print(kurtosisList)"""
+    return varianceList, medianList, skewnessList, statisticRangeList, standardDeviationList, arithmeticAverageList, kurtosisList
+
+
+def getCountrySkin(year, sex, age_range):
+    skinList = []
+    for country in countriesList:
+        skinList.append(getDataCountry(year, sex, age_range, "skin_level", country)[0])
+    return skinList
 
 
 def getDataCountry(year, sex, age_range, currency, countryName):
