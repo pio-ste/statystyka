@@ -49,7 +49,6 @@ def result():
             print(arithmeticAverageList)
             print(kurtosisList)"""
             skinList = getCountrySkin(year, sex, age_range)
-            print(skinList)
             return render_template('index.html', year=year, sex=sex, age_range=age_range, currency=currency,
                                    countriesList=countriesList, varianceList=varianceList, medianList=medianList,
                                    skewnessList=skewnessList, statisticRangeList=statisticRangeList,
@@ -62,8 +61,6 @@ def result():
             age_range = "18-24"
             currency = "mean_equivalised_net_income_euro"
             skinList = getCountrySkin(year, sex, age_range)
-
-            print(skinList)
             return render_template('index.html', year=year, sex=sex, age_range=age_range, currency=currency, arithmeticAverageList=arithmeticAverageList, skinList=skinList)
     except Exception as e:
         return render_template("500error.html", error=str(e))
